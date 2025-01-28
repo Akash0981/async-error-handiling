@@ -10,10 +10,11 @@
     <h1>Chats</h1>
     <a href="/chats/new">Create new message</a>
     <% for(let chat of chats){ %>
+      <a href="/chats/<%=chat._id%>"> 
     <div class="box">
-      <h1><%= chat.from %></h1>
+      <i><h3><%= chat.from %></h3></i> 
       <p><%= chat.message %></p>
-      <p><%= chat.to %></p>
+      <i><h4><%= chat.to %></h4></i>
       <div class="buttons">
         <form method="Get" action="/chats/<%=chat._id%>/edit" class="button-box">
           <button>Edit</button>
@@ -23,7 +24,7 @@
         </form>
       </div>
     </div>
-
+  </a>
     <% } %>
   </body>
 </html>
