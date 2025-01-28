@@ -68,24 +68,45 @@ app.post("/chats", async (req, res, next)=>{
 
 // New Show route for async error handling
 
-app.get("/chats/:id", async(req, res, next) =>{
-    try{
-        let {id} = req.params;
-    let chat = await Chat.findById(id);
-    if(!chat){   
-       // throw new ExpressError(404, "chat not found");
-       next(new ExpressError(404, "chat not found"));
-   }
-   console.log(chat);
-   res.render("show.ejs", {chat});
-    }catch(err){
-        next(err);
-    }
+// app.get("/chats/:id", async(req, res, next) =>{
+//     try{
+//         let {id} = req.params;
+//     let chat = await Chat.findById(id);
+//     if(!chat){   
+//        // throw new ExpressError(404, "chat not found");
+//        next(new ExpressError(404, "chat not found"));
+//    }
+//    console.log(chat);
+//    res.render("show.ejs", {chat});
+//     }catch(err){
+//         next(err);
+//     }
     // comment-> if id not same then server will be crash. example 67970ffb4961137ef936850c this is correct if i modify last 2 digit (67970ffb4961137ef93685b6) then it will be crash = process.processTicksAndRejections
     // different id according to your system 
 
     // comment-> async function me express by default next ko call nahi lagata to error handling proper nahi hogi 
-})
+// })
+
+
+// using of try and catch make code bulky and solution is wrap function example for previous comment code
+// asyncwrap function
+function asyncWrap(fn){
+    return function(req, res, next){
+        fn(req, res, next).catch(err => next(err));
+    }
+}
+// New Show route for async error handling
+// in this route and function whole code in asyncWrap is a function which is passed in this function
+app.get("/chats/:id", asyncWrap( async(req, res, next) =>{
+   
+    let {id} = req.params;
+    let chat = await Chat.findById(id);
+    if(!chat){   
+       next(new ExpressError(404, "chat not found"));
+   }
+   console.log(chat);
+   res.render("show.ejs", {chat});
+}));
 
 
 //edit route
