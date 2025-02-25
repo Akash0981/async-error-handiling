@@ -63,7 +63,6 @@ app.post("/chats", async (req, res, next)=>{
     }catch(err){
         next(err);
     }
-    
 })
 
 // New Show route for async error handling
@@ -109,7 +108,7 @@ app.get("/chats/:id", asyncWrap( async(req, res, next) =>{
 }));
 
 
-//edit route
+//Find edit route
 app.get("/chats/:id/edit", async (req, res, next) =>{
     try{
         let {id} = req.params;
@@ -120,10 +119,8 @@ app.get("/chats/:id/edit", async (req, res, next) =>{
     }catch(err){
         next(err);
     }
-    
-
 })
-
+//update
 app.put("/chats/:id", async (req, res, next) =>{
     try{
         let {id} = req.params;
@@ -138,7 +135,7 @@ app.put("/chats/:id", async (req, res, next) =>{
         next(err);
     }
 })
-
+// Delete chat
 app.delete("/chats/:id", async(req, res, next)=>{
     try{
         let {id} = req.params;
